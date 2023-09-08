@@ -1,12 +1,28 @@
 import express from 'express'
+import { PORT, TOKEN } from './config.js'
+import { Telegraf } from 'telegraf';
+import { getMainMenu } from './keyboard.js';
 
 const app = express();
-const PORT = 3000;
+const bot = new Telegraf(TOKEN);
 
-app.get('/', (req, res) => {
-    res.send('Hello, why are you gay?');
-});
+bot.start(ctx => {
+    ctx.reply('Hello, bro, why are you gay?', getMainMenu());
+})
 
+// bot.on('text', ctx => {
+//     ctx.reply('Why are you gay?');
+// })
+
+bot.hears('i am not gay', ctx => {
+    ctx.reply('WHY ARE YOU GAY?');
+})
+
+bot.command('time', ctx => {
+    ctx.reply(String(new Date))
+})
+
+bot.launch()
 app.listen(PORT, () => console.log(`server started at port ${PORT}...`));
 
 // const token = '6408160220:AAFaY6FCSWI5GK1jA4MABcKaGz8LqwOOGNU';
